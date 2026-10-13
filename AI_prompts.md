@@ -363,3 +363,11 @@ One section per problem. Each section has the problem number/title, the prompts 
   * Name three new problems Campus Customs could face that this agent team can solve with the tools you already built  
   * Name three new problems Campus Customs could face that this agent team cannot solve with the tools you built. For each one, explain what tools and agents you would need.
 - Tie every answer to this app and the three tickets you ran. Use the ticket tabs and the Cash tab on the same page as your evidence.
+
+## Problem 11: Submit to GitHub
+
+- Now we work on Problem 11: Submit to Github
+- Push your code to a public GitHub repo so graders can clone it. Then submit the repo URL on Canvas and save it to output/github_url.txt.
+  Do not push your real .env to the GitHub repo. Do include both database files under data/ (the original and your working copy) so graders can run your app easily.
+- README should explain how to copy the original DB to the working copy for a clean run, start the MCP server, start the FastAPI backend, start the React board, and reset the DB before a full three-ticket run.
+- Shouldn't you log my prompts for Problem 11?
