@@ -1,0 +1,92 @@
+{
+  "how_this_was_run": "Each call was made live by the vibe coder (Claude Code) through the campus-customs MCP server it connected to from .mcp.json on 2026-10-10 (tools mcp__campus-customs__check_stock, get_ticket, check_margin). 'prompt' is the request that calls for that tool. 'matches_database' compares the tool output with values read independently from data/campus_customs_new.db with plain SQL (sqlite3).",
+  "database": "data/campus_customs_new.db",
+  "tools_on_server": [
+    "get_ticket",
+    "check_stock",
+    "check_margin"
+  ],
+  "results": [
+    {
+      "ticket": 101,
+      "prompt": "Ticket 101: Tauhid Zaman wants a Bulldog tee, size S. Check how many CC-TEE-WHITE size S we have on hand and whether we are short for 1 unit.",
+      "tool": "check_stock",
+      "arguments": {
+        "sku": "CC-TEE-WHITE",
+        "size": "S",
+        "qty_needed": 1
+      },
+      "output": {
+        "ok": true,
+        "sku": "CC-TEE-WHITE",
+        "name": "Classic Bulldog Tee",
+        "size": "S",
+        "qty": 0,
+        "location": "Aisle B",
+        "qty_needed": 1,
+        "shortfall": 1
+      },
+      "matches_database": true
+    },
+    {
+      "ticket": 102,
+      "prompt": "Ticket 102: Elm City Properties says rent is due in 2 days. Read ticket 102, find its lease, and tell me the rent amount and how many days until it is due today.",
+      "tool": "get_ticket",
+      "arguments": {
+        "ticket_id": 102
+      },
+      "output": {
+        "ok": true,
+        "date_today": "2026-08-31",
+        "ticket": {
+          "id": 102,
+          "type": "rent_notice",
+          "requester": "Elm City Properties",
+          "subject": "Rent due",
+          "sku": null,
+          "size": null,
+          "qty": null,
+          "lease_id": 1,
+          "invoice_id": null,
+          "status": "open",
+          "notes": "Email: shop rent due in 2 days.",
+          "created_at": "2026-08-31T11:05:00-04:00"
+        },
+        "invoice": null,
+        "vendor": null,
+        "lease": {
+          "id": 1,
+          "space_name": "Chapel Street shop",
+          "landlord": "Elm City Properties",
+          "monthly_rent": 2400.0,
+          "next_due": "2026-09-02",
+          "notes": null,
+          "days_until_due": 2
+        }
+      },
+      "matches_database": true
+    },
+    {
+      "ticket": 103,
+      "prompt": "Ticket 103: Yale AI Club wants a bulk discount on 20 CC-HOOD-NAVY hoodies. Check the margin if we sell at $50 per hoodie.",
+      "tool": "check_margin",
+      "arguments": {
+        "sku": "CC-HOOD-NAVY",
+        "offered_unit_price": 50
+      },
+      "output": {
+        "ok": true,
+        "sku": "CC-HOOD-NAVY",
+        "unit_cost": 22.0,
+        "list_price": 58.0,
+        "offered_unit_price": 50.0,
+        "margin_per_unit": 28.0,
+        "margin_pct": 56.0,
+        "discount_pct_off_list": 13.8,
+        "below_cost": false
+      },
+      "matches_database": true
+    }
+  ],
+  "all_match_database": true
+}

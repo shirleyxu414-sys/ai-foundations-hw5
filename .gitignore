@@ -1,0 +1,19 @@
+# secrets: never commit a real .env
+.env
+.env.*
+!.env.example
+!frontend/.env.example
+
+# dependencies and build output
+.venv/
+node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+
+# OS and editor
+.DS_Store
+
+# scratch proof files from setting up the work folder
+joke.txt
+joke-2.txt
