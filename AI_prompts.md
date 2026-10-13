@@ -370,9 +370,3 @@ One section per problem. Each section has the problem number/title, the prompts 
 - Push your code to a public GitHub repo so graders can clone it. Then submit the repo URL on Canvas and save it to output/github_url.txt.
   Do not push your real .env to the GitHub repo. Do include both database files under data/ (the original and your working copy) so graders can run your app easily.
 - README should explain how to copy the original DB to the working copy for a clean run, start the MCP server, start the FastAPI backend, start the React board, and reset the DB before a full three-ticket run.
-- Shouldn't you log my prompts for Problem 11?
-- Check the expected file layout. (with a screenshot of the expected hw5/ folder tree)
-- I thought we are using this, uvicorn main:app --reload --port 8000
-- what should i do now?
-- recheck and test everything before i submot
-- then stop lecture 13
