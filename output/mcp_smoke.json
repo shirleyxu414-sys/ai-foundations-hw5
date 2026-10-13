@@ -1,10 +1,28 @@
 {
-  "how_this_was_run": "Each call was made live by the vibe coder (Claude Code) through the campus-customs MCP server it connected to from .mcp.json on 2026-10-10 (tools mcp__campus-customs__check_stock, get_ticket, check_margin). 'prompt' is the request that calls for that tool. 'matches_database' compares the tool output with values read independently from data/campus_customs_new.db with plain SQL (sqlite3).",
-  "database": "data/campus_customs_new.db",
+  "how_this_was_run": "Each call went through the campus-customs MCP server using the exact connection saved in .mcp.json (stdio, FastMCP client). 'prompt' is the request that calls for that tool. 'matches_database' compares the tool output with values read independently from the same database file with plain SQL.",
+  "database": "a temporary copy of data/campus_customs.db (the original), so the working copy is never touched",
   "tools_on_server": [
     "get_ticket",
     "check_stock",
-    "check_margin"
+    "check_margin",
+    "list_tickets",
+    "list_leases",
+    "list_payments",
+    "list_vendors",
+    "list_invoices",
+    "check_cash",
+    "request_payment_approval",
+    "draft_customer_message",
+    "update_ticket",
+    "list_inventory",
+    "get_pricing",
+    "list_approvals",
+    "list_drafts",
+    "execute_approved_payment",
+    "decline_payment",
+    "reset_shop_database",
+    "receive_shipment",
+    "record_human_decision"
   ],
   "results": [
     {
@@ -62,7 +80,9 @@
           "next_due": "2026-09-02",
           "notes": null,
           "days_until_due": 2
-        }
+        },
+        "approvals": [],
+        "human_decisions": []
       },
       "matches_database": true
     },

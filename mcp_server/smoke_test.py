@@ -1,8 +1,14 @@
-import asyncio, json, sqlite3
+import asyncio, json, shutil, sqlite3, tempfile
 from fastmcp import Client
 
+# Run against a throwaway copy of the ORIGINAL database, so the result does not depend on what state the working
+# copy is in (for example after a finished run) and the working copy is never touched.
+TMP = tempfile.mkdtemp(prefix="smoke_")
+SCRATCH_DB = f"{TMP}/campus_customs.db"
+shutil.copyfile("data/campus_customs.db", SCRATCH_DB)
 cfg = json.load(open(".mcp.json"))
-db = sqlite3.connect("file:data/campus_customs_new.db?mode=ro", uri=True)
+cfg["mcpServers"]["campus-customs"]["env"]["CAMPUS_DB"] = SCRATCH_DB
+db = sqlite3.connect(f"file:{SCRATCH_DB}?mode=ro", uri=True)
 db.row_factory = sqlite3.Row
 one = lambda q, *a: dict(db.execute(q, a).fetchone())
 
@@ -33,7 +39,7 @@ def expected(c):
         from datetime import date
         days = (date.fromisoformat(l["next_due"]) - date.fromisoformat(today)).days
         return {"ok": True, "date_today": today, "ticket": t, "invoice": None, "vendor": None,
-                "lease": {**l, "days_until_due": days}}
+                "lease": {**l, "days_until_due": days}, "approvals": [], "human_decisions": []}
     p = one("select * from pricing where sku=?", a["sku"])
     m = a["offered_unit_price"] - p["unit_cost"]
     return {"ok": True, "sku": a["sku"], "unit_cost": p["unit_cost"], "list_price": p["list_price"],
@@ -52,8 +58,8 @@ async def main():
             exp = expected(case)
             results.append({**case, "output": out, "matches_database": out == exp})
     evidence = {
-        "how_this_was_run": "Each call went through the campus-customs MCP server using the exact connection saved in .mcp.json (stdio, FastMCP client). 'prompt' is the request that calls for that tool. 'matches_database' compares the tool output with values read independently from data/campus_customs_new.db with plain SQL.",
-        "database": "data/campus_customs_new.db",
+        "how_this_was_run": "Each call went through the campus-customs MCP server using the exact connection saved in .mcp.json (stdio, FastMCP client). 'prompt' is the request that calls for that tool. 'matches_database' compares the tool output with values read independently from the same database file with plain SQL.",
+        "database": "a temporary copy of data/campus_customs.db (the original), so the working copy is never touched",
         "tools_on_server": listed,
         "results": results,
         "all_match_database": all(x["matches_database"] for x in results),
